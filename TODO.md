@@ -1,0 +1,28 @@
+# para fazer
+garantir que há variação na sequência
+
+para garantir que há variação na sequencia é preciso antes de adicionar a sequencia verificar 
+se já existe alguma igual 
+
+Para isso tenho que gerar e encriptala - verificar - se houver gera outra se nao houver -- adiciona
+
+
+
+OQUE PODE ACONTECER 
+
+UTILIZADOR TER A MESMA COR DO CARTÃO --- > TER A MESMA PASSE 
+ENTAO COMO IDENTIFICO QUE É ELE E NAO OUTRO ? COM O SECRET TOKEN 
+
+
+A SEQUENCIA PRECISA NECESSARIAMENTE DE SER UNICA ? 
+
+PROBLEMA SE SIM --- ENTAO HÁ UM NUMERO DE COMBINAÇÕES FINITO --- VAI TER DE HAVER 
+PORQUE SE A AUTENTICAÇÃO TEM QUE SER FEITA PELO CARTAO E PODE HAVER USERS COM AS MESMAS CORES 
+ENTAO QUER DIZER QUE A PASSWORD TEM QUE SER UNICA POIS SO O CARTAO E A SEQUENCIA PODEM AUTENTICAR O USER --- OBJETIVO DO TRABALHO 
+
+
+
+SE NAO -- TEMOS DE ARRANJAR FORMA DE QUANDO ELE RECECONHECE A SEQUENCIA VERIFICAR O TOKEN ? 
+
+SELECT 
+
