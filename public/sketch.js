@@ -1,3 +1,4 @@
+let numero_gestos = 5
 
 //video
 let video;
@@ -11,7 +12,8 @@ const numeroDeMoves = 3
 
 //https://teachablemachine.withgoogle.com/models/wxn2Fyk5q/
 //let modelURL = 'https://teachablemachine.withgoogle.com/models/Ugx_yoTiy/';
-let modelURL = 'https://teachablemachine.withgoogle.com/models/wxn2Fyk5q/';
+//https://teachablemachine.withgoogle.com/models/wxn2Fyk5q/
+let modelURL = 'https://teachablemachine.withgoogle.com/models/zB0L_kEcS/';
 
 // STEP 1: Load the model!
 function preload() {
@@ -23,6 +25,7 @@ function setup() {
   c.position(370, 200)
   video = createCapture(VIDEO);
   video.hide();
+
   // step 2 : start classifying
   classifyVideo();
   timerToStart()
@@ -35,7 +38,8 @@ function timerToStart() {
 
     if (currentTime == 0) {
       currentTime = 10
-      document.getElementById("timer").innerHTML = "VAI COMEÇAR!!"
+      document.getElementById("timer").innerHTML = "Start!";
+
       clearInterval(x)
       return startSequence()
     }
@@ -49,21 +53,37 @@ function timerToStart() {
 function startSequence() {
 
   let currentString = ""
-  let currentFetched = 0
-// guardar na currentString a pass que leu 
-  let timerino = setInterval(() => {  
-    if (currentFetched == 3) {
+  let currentFetched = 1
+  let currentTime = 4
+
+  // guardar na currentString a pass que leu 
+  let timerino = setInterval(() => {
+
+
+    if (currentFetched == numero_gestos * 5 + 2) {
       clearInterval(timerino)
       console.log(currentString)
-      document.getElementById("timer").innerHTML = "Sorria :D";
+      document.getElementById("timer").innerHTML = "Fim";
       return postPassword(currentString)
     }
-    let currentLabel = label
-    currentString = currentString + currentLabel.replace(" ", "")
-    currentFetched = currentFetched + 1
-    console.log(currentLabel)
-  }, 4000);
 
+    document.getElementById("timer").innerHTML = currentTime + "s ";
+
+    currentTime = currentTime - 1
+
+    // quando for divisivel por 5 --> "tira foto " e junta à string final
+    if (currentFetched % 5 == 0) {
+      document.getElementById("timer").innerHTML = "Foto";
+
+      let currentLabel = label
+      currentString = currentString + currentLabel.replace(" ", "")
+      currentTime = 4
+      console.log(currentLabel)
+    }
+
+    currentFetched = currentFetched + 1
+    console.log(currentFetched)
+  }, 1000);
 }
 
 function postPassword(password) {
@@ -79,9 +99,16 @@ async function classifyVideo() {
 }
 
 function draw() {
+
+
   background(0);
   // DRAW the video
+  push();
+  translate(width, 0);
+  scale(-1, 1);
   image(video, 0, 0);
+  pop();
+
   // DRAW 
   noFill();
   //square(100, 50, 400);   

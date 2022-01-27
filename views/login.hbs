@@ -12,7 +12,30 @@
     <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
     <script src="https://unpkg.com/ml5@0.4.1/dist/ml5.min.js"></script>
+    <script type="text/javascript" src="/config.js"></script>
+
     <title>Login</title>
+
+    <style type="text/css">
+
+		@font-face{
+			font-family: sevenSegment;
+			src: url(seven-segment.ttf);
+		}
+
+		h1{
+			font-family: sevenSegment;
+			font-size: 7em;
+			color: #3c4fb8;
+		}
+
+		.container{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+	</style>
 </head>
 
 <body>
@@ -38,7 +61,11 @@
         <input type="password" class="form-control" id="passwordhidden" name="passwordhidden">
         <button type="submit" class="btn btn-primary" id="hiddenbutton">HIDDEN BUTTOM</button>
     </form>
-    <p id="timer"></p>
+
+    <div class="container">
+        <h1 id="timer"></h1>
+    </div>
+    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

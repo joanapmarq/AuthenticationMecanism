@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const randomstring = require('randomstring');
 const { hash, generate_card } = require("../utils")
 var nodemailer = require('nodemailer');
+const numero_gestos = 5
 
 const db = mysql.createConnection({
     socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock',
@@ -12,6 +13,15 @@ const db = mysql.createConnection({
     password: 'root',
     database: 'projeto'
 });
+
+
+db.connect((error) => {
+    if(error){
+        console.log(error)
+    }else {
+        console.log("MySQL Connected...")
+    }
+})
 
 
 //nodemailer and transporter 
@@ -24,26 +34,6 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-
-/* fazer isto --- colorCodes.back -- https://stackoverflow.com/questions/3244361/can-i-access-variables-from-another-file
-var colorCodes = {
-
-    vermelho  : "#fff",
-    front : "#888",
-    side  : "#369"
-  
-  };
-  //first.js
-const colorCode = {
-    black: "#000",
-    white: "#fff"
-};
-export { colorCode };
-
-//second.js
-import { colorCode } from './first.js'
-
-  */
 
 
 exports.register = (req, res) => {
@@ -134,7 +124,7 @@ exports.register = (req, res) => {
 //GERAR CARTÃO E PASSWORD ALEATORIAMENTE 
 
 const colors = ["Vermelho", "Amarelo", "Azul", "Rosa", "Verde"];
-const codes = ["#FF0000", "#FFFF00", "#0000FF", "#f00c93", "#00FF00"];
+const codes = ["#e60000", "#FFFF00", "#87ceeb", "#ffb6c1", "#39b830"];
 
 
 function gerarAleatoriamenteFrente() {
@@ -159,14 +149,13 @@ function gerarAleatoriamentePass(frente, tras) {
     //const tras = gerarAleatoriamenteTras();
 
     const randomFT = [frente, tras];
+    let sequencia = []
 
-    const sequencia = [randomFT[Math.floor(Math.random() * randomFT.length)],
-    posicao[Math.floor(Math.random() * posicao.length)],
-    randomFT[Math.floor(Math.random() * randomFT.length)],
-    posicao[Math.floor(Math.random() * posicao.length)],
-    randomFT[Math.floor(Math.random() * randomFT.length)],
-    posicao[Math.floor(Math.random() * posicao.length)]
-    ]
+    for (let index = 0; index < numero_gestos; index++) {
+        sequencia.push(randomFT[Math.floor(Math.random() * randomFT.length)])
+        sequencia.push(posicao[Math.floor(Math.random() * posicao.length)])
+    }
+   
 
     const finalSequencia = sequencia.join('')
 
@@ -216,14 +205,11 @@ exports.verify = (req, res) => {
                                 }
                             })
 
-
-                            res.render('paginapdf', { frente: codes[colors.indexOf(results[0].cor_frente)], tras: codes[colors.indexOf(results[0].cor_verso)], pass: pass })
                             let docImage =
                                 generate_card(
                                     codes[colors.indexOf(results[0].cor_frente)],
                                     codes[colors.indexOf(results[0].cor_verso)],
-                                    pass,
-                                    res
+                                    pass
                                 )
 
                             // Pipe generated PDF into response
@@ -270,6 +256,7 @@ exports.login = async (req, res) => {
                 //return res.render('profile')
             } else {
                 console.log("Não encontrado")
+                return res.render('erro')
             }
 
         })
